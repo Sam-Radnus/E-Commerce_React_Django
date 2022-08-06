@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Product(models.Model):
       user=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)#here on_delete denotes that if the parent element is deleted the child element will be present that is if a user gets deleted the product will remain just as it is
       name=models.CharField(max_length=200,null=True,blank=True)
-      #image=
+      image=models.ImageField(null=True,blank=True)
       brand=models.CharField(max_length=200,null=True,blank=True)
       category=models.CharField(max_length=200,null=True,blank=True)
       description=models.TextField(null=True,blank=True)
