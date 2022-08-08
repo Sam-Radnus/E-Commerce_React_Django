@@ -14,6 +14,7 @@ import ProductScreen from "./screens/ProductScreen";
 import Header from './components/Header';
 import HomeScreen from './screens/HomeScreen';
 import {Container,Row,Col} from 'react-bootstrap/Container'
+import CartScreen from "./screens/CartScreen";
 function App() {
   return (
     <Router>
@@ -26,6 +27,8 @@ function App() {
       <Routes>
       <Route path='/' element={<HomeScreen/>} exact/>
       <Route path='/product/:id' element={<ProductScreen/>} />
+      <Route path='/cart' element={<CartScreen/>} />
+      <Route path='/cart/:id/qty=:qty' element={<CartScreen/>} />
         </Routes>
   
       </div>
