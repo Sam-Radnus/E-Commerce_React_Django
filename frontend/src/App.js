@@ -16,6 +16,8 @@ import HomeScreen from './screens/HomeScreen';
 import {Container,Row,Col} from 'react-bootstrap/Container'
 import CartScreen from "./screens/CartScreen";
 import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from "./screens/RegisterScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 function App() {
   return (
     <Router>
@@ -28,6 +30,8 @@ function App() {
       <Routes>
       <Route path='/' element={<HomeScreen/>} exact/>
       <Route path='/login' element={<LoginScreen/>}></Route>
+      <Route path='/register' element={<RegisterScreen/>}></Route>
+      <Route path='/profile' element={<ProfileScreen/>}></Route>
       <Route path='/product/:id' element={<ProductScreen/>} />
       <Route path='/cart' element={<CartScreen/>} />
       <Route path='/cart/:id/qty=:qty' element={<CartScreen/>} />
