@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { logoutUser } from '../actions/userActions';
 const Header = () => {
     const userLogin = useSelector(state => state.userLogin)
-    const { data } = userLogin;
+    const { userInfo } = userLogin;
     const dispatch=useDispatch();
     const logoutHandler=async()=>{
         dispatch(logoutUser())
@@ -26,8 +26,8 @@ const Header = () => {
                             <LinkContainer to='/cart'>
                                 <Nav.Link ><i className="fas fa-shopping-cart"></i> Cart</Nav.Link>
                             </LinkContainer>
-                            {data ?
-                                <NavDropdown title={data.name} id='username'>
+                            {userInfo ?
+                                <NavDropdown title={userInfo.name} id='username'>
                                     <LinkContainer to='/profile'>
                                         <NavDropdown.Item>Profile</NavDropdown.Item>
                                     </LinkContainer>

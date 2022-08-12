@@ -4,9 +4,10 @@ import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import { register,getUserDetails } from '../actions/userActions'
+import { register,getUserDetails, updateUserProfile } from '../actions/userActions'
 import FormContainer from '../components/FormContainer'
 import { useNavigate } from 'react-router-dom'
+import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 const ProfileScreen = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -25,30 +26,41 @@ const ProfileScreen = () => {
             setMessage('Passwords do Not Match'); 
         }
         else{
-            dispatch(register(name, email, password));
+            dispatch(updateUserProfile({
+                'id':user._id,
+                'name':name,
+                'email':email,
+                'password':password
+            }));
+            setMessage('');
         }
     }
     const userDetails = useSelector(state => state.userDetails)
     const { error, loading, user } = userDetails;
     const userLogin = useSelector(state => state.userLogin)
-    const { data } = userLogin;
+    const { userInfo } = userLogin;
     const navigate = useNavigate();
+    const userUpdateProfile=useSelector(state=>state.userUpdateProfile)
+    const { success } = userUpdateProfile
     useEffect(() => {
-        if (!data) {
-            console.log(data);
+        if (!userInfo) {
             navigate('/login');
         }
         else{
-            if(!user||!user.name)
+            if(!user||!user.name || success)
             {
+               console.log(user);
+               console.log(success);
+               dispatch({type:USER_UPDATE_PROFILE_RESET})
                dispatch(getUserDetails('profile'))
             }
             else{
+                console.log(user);
                 setName(user.name)
                 setEmail(user.email)
             }
         }
-    }, [data,user])
+    }, [dispatch,userInfo,user,success])
   return (
     <Row>
         <Col md={3}>

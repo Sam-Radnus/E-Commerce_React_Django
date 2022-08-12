@@ -33,7 +33,7 @@ const RegisterScreen = () => {
     const { error, loading, userInfo } = userRegister;
     const navigate = useNavigate();
     useEffect(() => {
-        if (userInfo) {
+        if (!userInfo) {
             navigate('/');
         }
     }, [userInfo])
