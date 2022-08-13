@@ -22,7 +22,7 @@ export const removeFromCart=(id)=>(dispatch,getState)=>{
         type:CART_REMOVE_ITEM,
         payload:id,
     })
-    localStorage.setItems('cartItems',JSON.stringify(getState().cart.cartItems))
+    localStorage.setItem('cartItems',JSON.stringify(getState().cart.cartItems))
 }
 
 
@@ -31,5 +31,5 @@ export const saveShippingAddress=(data)=>(dispatch)=>{
         type:CART_SAVE_SHIPPING_ADDRESS,
         payload:data,
     })
-    localStorage.setItems('shipping Address',JSON.stringify(data))
+    localStorage.setItem('shippingAddress',JSON.stringify(data))
 }
