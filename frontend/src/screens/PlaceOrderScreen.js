@@ -8,12 +8,34 @@ import { Link } from 'react-router-dom'
 import FormContainer from '../components/FormContainer'
 import CheckoutState from '../components/CheckoutState'
 import Message from '../components/Message'
-
+import { createOrder } from '../actions/orderActions'
+import { ORDER_CREATE_RESET } from '../constants/orderConstants'
 const PlaceOrderScreen = () => {
+    const orderCreate=useSelector(state=>state.orderCreate);
+    const { order,success,error}=orderCreate
     const cart = useSelector(state => state.cart)
+    const dispatch=useDispatch();
+    const navigate=useNavigate();
     const PlaceOrder=()=>{
         console.log("Order Placed");
+       
+        dispatch(createOrder({
+            orderItems:cart.cartItems,
+            shippingAddress:cart.shippingAddress,
+            paymentMethod:cart.paymentMethod,
+            itemsPrice:cart.itemsPrice,
+            shippingPrice:cart.shippingPrice,
+            taxPrice:cart.taxPrice,
+            totalPrice:cart.totalPrice,
+        }))
     }
+    useEffect(()=>{
+        if(success)
+        {
+            navigate(`/order/${order._id}`)
+            dispatch({type:ORDER_CREATE_RESET})
+        }
+    },[success])
     cart.itemsPrice=cart.cartItems.reduce((acc,item)=>acc+item.price*item.qty,0).toFixed(2);
     cart.shippingPrice=(cart.itemsPrice<100?0:10).toFixed(2);
     cart.taxPrice=Number((0.082)*cart.itemsPrice).toFixed(2);
@@ -100,6 +122,10 @@ const PlaceOrderScreen = () => {
                                 <Col>${cart.totalPrice}</Col>
                             </Row>
                         </ListGroup.Item>
+                        <ListGroup.Item>
+                            {error && <Message variant='danger'>{error}</Message>}
+                        </ListGroup.Item>
+
                         <ListGroup.Item>
                            <Button
                              type='button'
