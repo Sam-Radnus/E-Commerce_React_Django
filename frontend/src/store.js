@@ -4,7 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { productListReducers,productDetailsReducers } from './reducers/productReducers'
 import { cartReducer } from './reducers/cartReducers'
 import { userLoginReducer,userRegisterReducer,userDetailsReducer,userUpdateProfileRefucer} from './reducers/userReducers'
-import { orderCreateReducer } from './reducers/orderReducers'
+import { orderCreateReducer ,orderDetailReducer} from './reducers/orderReducers'
 const reducer=combineReducers({
     productList:productListReducers,
     productDetails:productDetailsReducers,
@@ -13,7 +13,8 @@ const reducer=combineReducers({
     userRegister:userRegisterReducer,
     userDetails:userDetailsReducer,
     userUpdateProfile:userUpdateProfileRefucer,
-    orderCreate:orderCreateReducer
+    orderCreate:orderCreateReducer,
+    orderDetails:orderDetailReducer,
 })
 const cartItemsFromStorage=localStorage.getItem('cartItems')?JSON.parse(localStorage.getItem('cartItems')):[] //these informations are pulled when the webpage is first loaded
 const userInfoFromStorage=localStorage.getItem('userInfo')?JSON.parse(localStorage.getItem('userInfo')):null

@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render
 from django.http import HttpResponse,JsonResponse
 from rest_framework.views import APIView
@@ -11,7 +12,7 @@ from django.contrib.auth.models import User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.models import make_password
-
+from datetime import *
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def addOrderItems(request):
@@ -31,7 +32,7 @@ def addOrderItems(request):
         )
         print(data)
         # 2 create shipping address
-        shipping=ShippingAddress.objects.create(
+        shippingAddress=ShippingAddress.objects.create(
             order=order,
             address=data['shippingAddress']['address'],
             city=data['shippingAddress']['city'],
@@ -39,7 +40,8 @@ def addOrderItems(request):
             country=data['shippingAddress']['country'],
             #shippingPrice=data['shippingAddress']['shippingPrice']
         )
-        # 3 create order items and set order to order item relation ship
+        print(shippingAddress)
+        # 3 create order items and set order to order item relationship
         for i in orderItems:
             product=Product.objects.get(_id=i['product'])
             print(product)
@@ -54,5 +56,31 @@ def addOrderItems(request):
             # 4 update stock    
             product.countInStock-=int(item.qty)
             product.save()
+        shippingAddress.save()    
         serializer=OrderSerializer(order,many=False)      
         return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getOrderById(request,pk):
+    print(pk)
+    user=request.user
+    
+    try:
+        order=Order.objects.get(_id=pk)
+        if user.is_staff or order.user == user:
+           serializer=OrderSerializer(order,many=False)
+           return Response(serializer.data)
+        else:
+           return Response({'detail':'Not Authorized to View this Order'},status=status.HTTP_400_BAD_REQUEST)
+    except:
+        return Response({'detail':'Order does not Exist'},status=status.HTTP_400_BAD_REQUEST)           
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])        
+def updateOrderToPaid(request,pk):
+    order=Order.objects.get(_id=pk)
+    order.isPaid=True
+    order.paidAt=datetime.now()
+    order.save()
+    return Response('Order was Paid')
