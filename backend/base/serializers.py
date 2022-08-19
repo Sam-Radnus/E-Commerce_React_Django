@@ -70,6 +70,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def get_shippingAddress(self,obj):
         print("$:",obj)
+    
         try:
            print(":",obj)
            address=self.shippingAddress

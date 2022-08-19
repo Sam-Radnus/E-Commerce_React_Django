@@ -17,7 +17,7 @@ import {
     USER_DETAILS_RESET
 } from "../constants/userConstants"
 import  axios  from "axios"
-
+import { ORDER_LIST_MY_RESET } from '../constants/orderConstants'
 export const loginUser=(email,password)=>async(dispatch)=>{
     try{
         console.log(email);
@@ -39,7 +39,7 @@ export const loginUser=(email,password)=>async(dispatch)=>{
             type:USER_LOGIN_SUCCESS,
             payload:data
         })
-        localStorage.setItem('user info',JSON.stringify(data))
+        localStorage.setItem('userInfo',JSON.stringify(data))
     }
     catch(error)
     {
@@ -145,6 +145,7 @@ export const updateUserProfile=(user)=>async(dispatch,getState)=>{
 export const logoutUser=()=>(dispatch)=>{
         dispatch({type:USER_LOGOUT})
         dispatch({type:USER_DETAILS_RESET})
+        dispatch({type:ORDER_LIST_MY_RESET})
         localStorage.removeItem();
     
 

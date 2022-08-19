@@ -32,6 +32,7 @@ const CartScreen = ({ match, location }) => {
     <Row>
       <Col md={8}>
         <h1>Shipping Cart</h1>
+        <Link to='/order/32'>Order</Link>
         {cartItems.length === 0 ? (
           <Message variant='info'>
             Your Cart is Empty <Link to='/'>Go Back</Link>
